@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>贪吃蛇</title>
+  <link rel="stylesheet" type="text/css" href="./index.css" />
+</head>
+<html>
+
+<body>
+  <input type="button" class="btn start" onclick="start()" value="开始游戏"></input>
+  <input type="button" class="btn stop" onclick="stop()" style="display: none;" value="暂停"></input>
+
+  <!-- 屏幕 -->
+  <div id="screen" tabindex="0">
+    <!-- 贪吃蛇 -->
+    <div id="head" name="snake" class="snake" style="left: 760px; top: 480px;"></div>
+    <div name="snake" class="snake" style="left: 720px; top: 480px;"></div>
+    <div name="snake" class="snake" style="left: 680px; top: 480px;"></div>
+    <div name="snake" class="snake" style="left: 640px; top: 480px;"></div>
+
+    <!-- 食物 -->
+    <div id="food"></div>
+  </div>
+</body>
+
+</html>
+<script src="../Scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="./index.js"></script>
+<script type="text/javascript" language="javascript">
+  $(document).ready(function () {
+    blur();
+  });
+</script>
