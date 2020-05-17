@@ -79,11 +79,13 @@ function screenFocus() {
   document.getElementById("screen").focus();
 }
 
+var size = 40;
 
+// 获取浏览器的宽高
+var windowHeight = Math.round($(window).height() / size) * size;
+var windowWidth = Math.round($(window).width() / size) * size;
+// console.log(" height:" + windowHeight + " width:" + windowWidth);
 
-var windowHeight = $(window).height();
-var windowWidth = $(window).width();
-console.log("height:" + windowHeight + " width:" + windowWidth);
 // 移动
 function move() {
   // 确定蛇头位置
@@ -96,13 +98,13 @@ function move() {
   nowDirection = nextDirection;
   if (nextDirection == "left") {
     // 间距必须保证是整数
-    head.style.left = (parseInt(headLeft) - 40 + windowWidth) % windowWidth + "px";
+    head.style.left = (parseInt(headLeft) - size + windowWidth) % windowWidth + "px";
   } else if (nextDirection == "right") {
-    head.style.left = (parseInt(headLeft) + 40) % windowWidth + "px";
+    head.style.left = (parseInt(headLeft) + size) % windowWidth + "px";
   } else if (nextDirection == "up") {
-    head.style.top = (parseInt(headTop) - 40 + windowHeight) % windowHeight + "px";
+    head.style.top = (parseInt(headTop) - size + windowHeight) % windowHeight + "px";
   } else if (nextDirection == "down") {
-    head.style.top = (parseInt(headTop) + 40) % windowHeight + "px";
+    head.style.top = (parseInt(headTop) + size) % windowHeight + "px";
   }
 
   // 移动蛇身
@@ -117,6 +119,11 @@ function move() {
 
     headLeft = bodyLeft;
     headTop = bodyTop;
+  }
+
+  // 判断是否碰到自己
+  if (IsTouch()) {
+    gameover();
   }
 
   // 判断是否吃到食物
@@ -144,11 +151,97 @@ function checkFood() {
 
   if (head.style.top == $("#food").css("top") && head.style.left == $("#food").css("left")) {
     // 移动食物的位置
-    food.style.left = parseInt(Math.random() * 13) * 40 + "px";
-    food.style.top = parseInt(Math.random() * 13) * 40 + "px";
+    food.style.left = parseInt(Math.random() * 13) * size + "px";
+    food.style.top = parseInt(Math.random() * 13) * size + "px";
     // console.log(food.style.left + " " + food.style.top);
+
+    // 判断是否和蛇的位置重叠
+    if (IsOverlap()) {
+      // 移动食物的位置
+      food.style.left = parseInt(Math.random() * 13) * size + "px";
+      food.style.top = parseInt(Math.random() * 13) * size + "px";
+    }
 
     return true;
   }
   return false;
+}
+
+function IsOverlap() {
+  // 获得蛇的位置
+  var snakeList = document.getElementsByName("snake");
+
+  for (var i = 0; i < snakeList.length; i++) {
+    if (snakeList.item(i).style.top == $("#food").css("top") && snakeList.item(i).style.left == $("#food").css("left")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// 判断是否咬到自己
+function IsTouch() {
+  console.log('咬到自己了');
+  var snakeList = document.getElementsByName("snake");
+  var head = snakeList.item(0);
+  var headLeft = head.style.left;
+  var headTop = head.style.top;
+
+  for (var i = 1; i < snakeList.length; i++) {
+    if (snakeList.item(i).style.top == headTop && snakeList.item(i).style.left == headLeft) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// 游戏结束
+function gameover() {
+  confirm("Game Over !", continuer());
+}
+
+// 继续
+function continuer() {
+  $("#screen").remove();
+  init();
+  stop();
+}
+
+// 游戏初始化
+function init() {
+  // 屏幕
+  var screen = $('<div>', {
+    id: "screen",
+    tabindex: "0"
+  });
+  screen.appendTo('body');
+
+  // 蛇
+  var left = 760;
+  for (var i = 0; i <= 4; i++) {
+    if (i == 0) {
+      var snake = $('<div>', {
+        class: "snake",
+        name: "snake",
+        id: "head"
+      });
+    } else {
+      var snake = $('<div>', {
+        class: "snake",
+        name: "snake",
+      });
+    }
+    snake.appendTo('#screen');
+    snake.css('left', left + 'px');
+    snake.css('top', 480 + 'px');
+    left = left - size;
+  }
+
+  // 食物
+  var screen = $('<div>', {
+    id: "food"
+  });
+  screen.appendTo('#screen');
 }
