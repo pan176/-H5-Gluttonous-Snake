@@ -1,6 +1,8 @@
 var nowDirection = "right";
 var nextDirection = "right";
 
+var score = 0;
+
 var focusInterval = null;
 var moveInterval = null;
 
@@ -162,6 +164,8 @@ function checkFood() {
       food.style.top = parseInt(Math.random() * 13) * size + "px";
     }
 
+    // 加分数
+    score++;
     return true;
   }
   return false;
@@ -199,7 +203,7 @@ function IsTouch() {
 
 // 游戏结束
 function gameover() {
-  confirm("Game Over !", continuer());
+  confirm("游戏结束，您一共吃到食物：" + score + "次", continuer());
 }
 
 // 继续
@@ -211,6 +215,13 @@ function continuer() {
 
 // 游戏初始化
 function init() {
+  // 初始化方向值
+  nowDirection = "right";
+  nextDirection = "right";
+
+  // 初始化吃到食物的次数
+  score = 0;
+
   // 屏幕
   var screen = $('<div>', {
     id: "screen",
