@@ -20,18 +20,22 @@
 
     .snake {
       position: absolute;
-      background: rgba(16, 146, 16, 0.75);
       width: 40px;
       height: 40px;
+      background: -webkit-linear-gradient(top, #00b09b, #96c93d);
+      opacity: 0.8;
+      box-shadow: 1px 1px 0 #000 inset;
+      filter: blur(1px);
     }
 
     #head {
-      background: green;
+      background: -webkit-linear-gradient(top, #00b09b, #96c93d);
     }
 
     #food {
       position: absolute;
-      background: darkred;
+      background: -webkit-linear-gradient(left top, white, darkred );
+      border-radius: 10px;
       width: 40px;
       height: 40px;
       left: 960px;

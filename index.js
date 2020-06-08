@@ -95,18 +95,34 @@ function move() {
   var head = snakeList.item(0);
   var headLeft = head.style.left;
   var headTop = head.style.top;
+  var ColorDirect = 'left';
 
   // 根据下一个方向，移动蛇头
   nowDirection = nextDirection;
   if (nextDirection == "left") {
     // 间距必须保证是整数
     head.style.left = (parseInt(headLeft) - size + windowWidth) % windowWidth + "px";
+    var ColorDirect = 'bottom';
   } else if (nextDirection == "right") {
     head.style.left = (parseInt(headLeft) + size) % windowWidth + "px";
+    var ColorDirect = 'top';
   } else if (nextDirection == "up") {
     head.style.top = (parseInt(headTop) - size + windowHeight) % windowHeight + "px";
+    var ColorDirect = 'left';
   } else if (nextDirection == "down") {
     head.style.top = (parseInt(headTop) + size) % windowHeight + "px";
+    var ColorDirect = 'right';
+  }
+
+  // 改变渐变方向
+  if (ColorDirect === 'left') {
+    $("div .snake").css("background", "-webkit-linear-gradient(left, #00b09b, #96c93d)");
+  } else if (ColorDirect === 'top') {
+    $("div .snake").css("background", "-webkit-linear-gradient(top, #00b09b, #96c93d)");
+  }else if (ColorDirect === 'right') {
+    $("div .snake").css("background", "-webkit-linear-gradient(right, #00b09b, #96c93d)");
+  }else if (ColorDirect === 'bottom') {
+    $("div .snake").css("background", "-webkit-linear-gradient(bottom, #00b09b, #96c93d)");
   }
 
   // 移动蛇身
